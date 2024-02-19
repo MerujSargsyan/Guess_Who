@@ -1,4 +1,16 @@
 'use strict'
+const ws = new WebSocket("ws://localhost:5555")
+let username
+
+ws.addEventListener("open", () => {
+    console.log("we are connected");
+})
+ws.addEventListener("message", (name) => {
+    console.log(name.data)
+    username = name.data
+    ws.send({chosen: {x: chosenx, y:choseny}, name: username})
+})
+
 let rows = 3
 let cols = 5
 let rowSpacing = 50
