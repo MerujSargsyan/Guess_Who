@@ -1,0 +1,29 @@
+html, body {
+    overflow: hidden;
+}
+
+#container{
+    display: flex;
+    width: 100%;
+}
+
+#button-space{
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.row {
+    display: flex;
+    margin: 50px, auto, 50px, auto;
+}
+
+.image {
+    margin: 50px 25px 50px 25px;
+    padding: 100px 75px 100px 75px;
+    background-color: lime;
+}
+
+#chosen-image {
+    border: 5px solid blue;
+}
