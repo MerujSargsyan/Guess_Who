@@ -10,6 +10,11 @@ let row3 = document.querySelector("#row3")
 
 let removing = true
 function setRemove(boolean) {
+    if(boolean) {
+        document.querySelector("html").style.cursor = "url(resources/remove.cur), auto"
+    } else {
+        document.querySelector("html").style.cursor = "url(resources/add.cur), auto"
+    }
     removing = boolean
 }
 
