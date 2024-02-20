@@ -1,14 +1,16 @@
 'use strict'
 const ws = new WebSocket("ws://localhost:5555")
 let username
+document.querySelector("html").style.cursor = "url(resources/remove.cur), auto"
 
 ws.addEventListener("open", () => {
     console.log("we are connected");
 })
 ws.addEventListener("message", (name) => {
-    console.log(name.data)
     username = name.data
-    ws.send({chosen: {x: chosenx, y:choseny}, name: username})
+    let dataToSend = {x: chosenx, y: choseny, name: username, 
+        guessing: finalGuessing}
+    ws.send(JSON.stringify(dataToSend))
 })
 
 let rows = 3
@@ -28,9 +30,14 @@ function setRemove(boolean) {
         document.querySelector("html").style.cursor = "url(resources/add.cur), auto"
     }
     removing = boolean
+    finalGuessing = false
 }
-
 let removeButton = document.querySelector("#remove")
+
+let finalGuessing = false
+function setGuess(boolean) {
+    finalGuessing = boolean
+}
 
 class Picture {
     constructor(posx, posy, src) {
@@ -41,7 +48,7 @@ class Picture {
     createPicture(special) {
         let image = document.createElement("div")
         image.classList.add("image")
-        image.addEventListener("click", () => {removed_mode(image)})
+        image.addEventListener("click", () => {click_mode(image)})
         if(special) {
             image.id = "chosen-image"
         }
@@ -49,9 +56,12 @@ class Picture {
     }
 }
 
-function removed_mode(element) {
+function click_mode(element) {
     if(removing) {
         element.style.opacity = 0.5;
+    } else if(finalGuessing) {
+        //add alert mode
+        ws.send(JSON.stringify({x:element.x, y:element.y}))
     } else {
         element.style.opacity = 1;
     }
