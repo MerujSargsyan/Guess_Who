@@ -24,8 +24,9 @@ function createServer() {
     window.location.href = 'index.html';
 }
 
-const input_code = document.querySelector("#input-section")
+const input_code = document.querySelector("#code-input")
 function connectServer() {
+    console.log(input_code.value)
     ws.send(JSON.stringify({type: "connect", code: input_code.value}))
     window.location.href = "index.html"
 }
