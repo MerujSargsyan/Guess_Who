@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Connection Point</title>
+        <link rel="stylesheet" href="connection.css">
+        <script src="connection.js" defer></script>
+    </head>
+    <body>
+        <div id="container">
+            <div id="square">
+                <div id="title">
+                    <h1>GUESS WHO</h1>
+                </div>
+                <div id="code-section">
+                    <p id="connection-code-area">
+                        SEND CODE:
+                        <b>
+                            ###-##-###
+                        </b>
+                    </p>
+                </div>
+                <div id="input-section">
+                    Input code: <input type="text" id="code-input">
+                </div>
+                <div id="button-area">
+                    <button onclick="createServer()">Create</button>
+                    <button onclick="connectServer()">Connect</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

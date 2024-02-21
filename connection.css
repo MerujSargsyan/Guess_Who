@@ -1,0 +1,17 @@
+body {
+    background-color: lime;
+}
+
+#container {
+    background-color: white;
+    margin: 25% auto auto auto;
+    max-width: 50%;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+}
+
+#input-section, #button-area {
+    padding: 5px 5px 5px 5px;
+}

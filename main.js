@@ -1,18 +1,4 @@
 'use strict'
-const ws = new WebSocket("ws://localhost:5555")
-let username
-document.querySelector("html").style.cursor = "url(resources/remove.cur), auto"
-
-ws.addEventListener("open", () => {
-    console.log("we are connected");
-})
-ws.addEventListener("message", (name) => {
-    username = name.data
-    let dataToSend = {x: chosenx, y: choseny, name: username, 
-        guessing: finalGuessing}
-    ws.send(JSON.stringify(dataToSend))
-})
-
 let rows = 3
 let cols = 5
 let rowSpacing = 50
@@ -61,7 +47,6 @@ function click_mode(element) {
         element.style.opacity = 0.5;
     } else if(finalGuessing) {
         //add alert mode
-        ws.send(JSON.stringify({x:element.x, y:element.y}))
     } else {
         element.style.opacity = 1;
     }
