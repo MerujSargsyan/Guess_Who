@@ -21,7 +21,7 @@ code_section.innerHTML = "Send Code: " + codes[pos]
 
 function createServer() {
     ws.send(JSON.stringify({type: "create", code: codes[pos]}))
-    window.location.href = 'index.html';
+    window.location.href = `index.html?code=${(codes[pos])}`
 }
 
 const input_code = document.querySelector("#code-input")

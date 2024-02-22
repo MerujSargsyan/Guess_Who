@@ -1,8 +1,14 @@
 'use strict'
+const searcher = new URLSearchParams(window.location.search);
+const code = searcher.get('code')
+console.log(code)
+
 let rows = 3
 let cols = 5
 let rowSpacing = 50
 let colSpacing = 50
+
+const server = new WebSocket("ws://localhost:5555")
 
 let row1 = document.querySelector("#row1")
 let row2 = document.querySelector("#row2")
@@ -22,6 +28,7 @@ let removeButton = document.querySelector("#remove")
 
 let finalGuessing = false
 function setGuess(boolean) {
+    console.log(`setting guess to ${boolean}`)
     finalGuessing = boolean
 }
 
@@ -34,7 +41,7 @@ class Picture {
     createPicture(special) {
         let image = document.createElement("div")
         image.classList.add("image")
-        image.addEventListener("click", () => {click_mode(image)})
+        image.addEventListener("click", () => {click_mode(image, this.posx, this.posy)})
         if(special) {
             image.id = "chosen-image"
         }
@@ -42,11 +49,14 @@ class Picture {
     }
 }
 
-function click_mode(element) {
-    if(removing) {
+function click_mode(element, posx, posy) {
+    if(removing && !finalGuessing) {
         element.style.opacity = 0.5;
     } else if(finalGuessing) {
         //add alert mode
+        console.log(`Made a guess at:${posx} ${posy}`)
+        server.send(JSON.stringify({type: "init-chosen", code: code, chosenx: posx, 
+            choseny: posy}))
     } else {
         element.style.opacity = 1;
     }
@@ -55,7 +65,6 @@ function click_mode(element) {
 let array = Array.from({ length: rows }, () => Array(cols).fill(0))
 let chosenx = Math.round(Math.random() * (cols-1))
 let choseny = Math.round(Math.random() * (rows-1))
-
 for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
         let picture = new Picture(col, row, "")

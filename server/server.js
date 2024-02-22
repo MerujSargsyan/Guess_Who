@@ -5,6 +5,9 @@ let gameInstances = []
 class GameInstance{
     constructor(client1, code) {
         this.client1 = client1
+        this.client1Chosen = null
+        this.client2 = null
+        this.client2Chosen = null
         this.code = code
     }
     addClient(client2) {
@@ -12,7 +15,6 @@ class GameInstance{
         console.log("Game started")
     }
 }
-
 
 server.on("connection", (client) => {
     client.on("message", (message) => {
@@ -26,9 +28,20 @@ server.on("connection", (client) => {
             gameInstances.forEach((game) => {
                 if(game.code == input.code) {
                     game.addClient(client)
-                    //game code reading is faulty
                     console.log("Player joined game " + game.code)
                     return
+                }
+            })
+        } else if(input.type == "init-chosen") {
+            gameInstances.forEach((game) => {
+                if(game.code == input.code) {
+                    if(game.client1Chosen == null) {
+                        game.client1Chosen = {chosenx: input.chosenx, choseny: input.choseny}
+                    } else if(game.client2Chosen == null) {
+                        game.client2Chosen = {chosenx: input.chosenx, choseny: input.choseny}
+                    }
+                    console.log(game.client1Chosen.chosenx + " " + game.client1Chosen.choseny)
+                    console.log(game.client2Chosen.chosenx + " " + game.client2Chosen.choseny)
                 }
             })
         }
