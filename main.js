@@ -1,7 +1,8 @@
 'use strict'
 const searcher = new URLSearchParams(window.location.search);
-const code = searcher.get('code')
-console.log(code)
+const init = JSON.parse(searcher.get('init'))
+console.log(init.code)
+console.log(init.player)
 
 let rows = 3
 let cols = 5
@@ -9,6 +10,12 @@ let rowSpacing = 50
 let colSpacing = 50
 
 const server = new WebSocket("ws://localhost:5555")
+server.addEventListener("open", () => {
+    server.send(JSON.stringify({type: "init-chosen", player: init.player, 
+        chosenx: chosenx, choseny: choseny}))
+})
+
+
 
 let row1 = document.querySelector("#row1")
 let row2 = document.querySelector("#row2")
@@ -55,7 +62,7 @@ function click_mode(element, posx, posy) {
     } else if(finalGuessing) {
         //add alert mode
         console.log(`Made a guess at:${posx} ${posy}`)
-        server.send(JSON.stringify({type: "init-chosen", code: code, chosenx: posx, 
+        server.send(JSON.stringify({type: "make-guess", code: init.code, chosenx: posx, 
             choseny: posy}))
     } else {
         element.style.opacity = 1;
@@ -90,4 +97,5 @@ for (let row = 0; row < rows; row++) {
         
     }
 }
+
 

@@ -21,12 +21,14 @@ code_section.innerHTML = "Send Code: " + codes[pos]
 
 function createServer() {
     ws.send(JSON.stringify({type: "create", code: codes[pos]}))
-    window.location.href = `index.html?code=${(codes[pos])}`
+    window.location.href = `index.html?init=${JSON.stringify({player: 1, 
+        code: (codes[pos])})}`
 }
 
 const input_code = document.querySelector("#code-input")
 function connectServer() {
     console.log(input_code.value)
     ws.send(JSON.stringify({type: "connect", code: input_code.value}))
-    window.location.href = "index.html"
+    window.location.href = `index.html?init=${JSON.stringify({player: 2, 
+        code: input_code.value})}`
 }

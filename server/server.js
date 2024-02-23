@@ -33,15 +33,29 @@ server.on("connection", (client) => {
                 }
             })
         } else if(input.type == "init-chosen") {
+            // I need a way to explicity assign player one and twos
+            // Perhaps use the web passing thing to pass the player position
             gameInstances.forEach((game) => {
                 if(game.code == input.code) {
-                    if(game.client1Chosen == null) {
-                        game.client1Chosen = {chosenx: input.chosenx, choseny: input.choseny}
-                    } else if(game.client2Chosen == null) {
-                        game.client2Chosen = {chosenx: input.chosenx, choseny: input.choseny}
+                    if(input.player == 1) {
+                        game.client1 = client
+                        game.client1Chosen = {x: input.chosenx, y: input.choseny}
+                    } else {
+                        game.client2 = client
+                        game.client2Chosen = {x: input.chosex, y: input.choseny}
                     }
-                    console.log(game.client1Chosen.chosenx + " " + game.client1Chosen.choseny)
-                    console.log(game.client2Chosen.chosenx + " " + game.client2Chosen.choseny)
+                }
+            })
+        } else if(input.type == "make-guess") {
+            gameInstances.forEach((game) => {
+                if(game.code == input.code) {
+                    if(input.chosenx == game.client2Chosen.x && 
+                        input.choseny == game.client2Chosen.y) 
+                    {
+                        console.log("Player wins")
+                    }
+                } else {
+                    console.log("Player loses")
                 }
             })
         }
